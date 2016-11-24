@@ -33,6 +33,8 @@ public class MainMenuTest extends TestBase {
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
             if (submenuItems.size()>0) {
+                submenuItems.get(0).click();
+                CheckHeader();
                 do {
                     subItemExists = CheckMenuItems(
                             By.xpath(".//li[@id='app-' and @class='selected']//li[contains(@id,'doc-') and @class='selected']/following-sibling::li[contains(@id,'doc-')]/a"));
