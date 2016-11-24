@@ -13,7 +13,7 @@ public class MainMenuTest extends TestBase {
 
 
     @Test
-    public void MainMenuCheckTest() throws InterruptedException {
+    public void mainMenuCheckTest() throws InterruptedException {
 
         driver.get("http://localhost/litecart/admin/");
         driver.findElement(By.name("username")).sendKeys("admin");
@@ -22,7 +22,7 @@ public class MainMenuTest extends TestBase {
         Thread.sleep(1000); //temporary, just for stability in FF
 
         driver.findElement(By.cssSelector("#app->a")).click();
-        CheckHeader();
+        checkHeader();
 
         boolean itemExist;
         do {
@@ -34,31 +34,31 @@ public class MainMenuTest extends TestBase {
 
             if (submenuItems.size()>0) {
                 submenuItems.get(0).click();
-                CheckHeader();
+                checkHeader();
                 do {
-                    subItemExists = CheckMenuItems(
+                    subItemExists = checkMenuItems(
                             By.xpath(".//li[@id='app-' and @class='selected']//li[contains(@id,'doc-') and @class='selected']/following-sibling::li[contains(@id,'doc-')]/a"));
                 }while (subItemExists);
                 }
-            itemExist = CheckMenuItems(By.xpath(".//li[@id='app-' and @class='selected']/following-sibling::li[@id='app-']/a"));
+            itemExist = checkMenuItems(By.xpath(".//li[@id='app-' and @class='selected']/following-sibling::li[@id='app-']/a"));
         }while (itemExist);
 
     }
 
-    private boolean CheckMenuItems(By referenceItemLocator) {
+    private boolean checkMenuItems(By referenceItemLocator) {
         driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         List<WebElement> items = driver.findElements(referenceItemLocator);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         if (items.size()>0) {
             items.get(0).click();
-            CheckHeader();
+            checkHeader();
             return true;
         }
         return false;
     }
 
 
-    private void CheckHeader() {
+    private void checkHeader() {
         By headerLocator = By.xpath(".//*[@id='content']/h1");
         waitForElement(headerLocator);
         int headersNumber = driver.findElements(headerLocator).size();
