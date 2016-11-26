@@ -38,7 +38,7 @@ public class CountriesTest extends TestBase {
         checkStringListIsSorted(countries);
 
         for (String country : countriesWithZones) {
-            driver.findElement(By.xpath(String.format("//table[@class='dataTable']//tr[@class='row']//a[contains(.,'%s')]", country))).click();
+            clickOnCountryLink(country);
             waitForElement(By.cssSelector("#table-zones"));
             List<WebElement> zones = driver.findElements(By.xpath(".//*[@id='table-zones']/tbody//td[3]/input[@type='hidden']"));
             ArrayList<String> zoneNames = new ArrayList<>();
@@ -50,6 +50,7 @@ public class CountriesTest extends TestBase {
             waitForElement(By.cssSelector(".dataTable"));
         }
     }
+
 
 
 
@@ -68,7 +69,7 @@ public class CountriesTest extends TestBase {
         }
 
         for (String country:countries){
-            driver.findElement(By.xpath(String.format("//table[@class='dataTable']//tr[@class='row']//a[contains(.,'%s')]", country))).click();
+            clickOnCountryLink(country);
             waitForElement(By.cssSelector("#table-zones"),20);
             List<WebElement> zoneSelects = driver.findElements(By.xpath("//table[@id='table-zones']//td[3]/select/option[@selected='selected']"));
             ArrayList<String> zoneNames = new ArrayList<>();
@@ -98,6 +99,10 @@ public class CountriesTest extends TestBase {
 
     private List<WebElement> getTableRows() {
         return driver.findElements(By.xpath("//table[@class='dataTable']//tr[@class='row']"));
+    }
+
+    private void clickOnCountryLink(String country) {
+        driver.findElement(By.xpath(String.format("//table[@class='dataTable']//tr[@class='row']//a[contains(.,'%s')]", country))).click();
     }
 }
 
