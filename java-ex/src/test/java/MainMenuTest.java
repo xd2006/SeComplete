@@ -15,10 +15,7 @@ public class MainMenuTest extends TestBase {
     @Test
     public void mainMenuCheckTest() throws InterruptedException {
 
-        driver.get("http://localhost/litecart/admin/");
-        driver.findElement(By.name("username")).sendKeys("admin");
-        driver.findElement(By.name("password")).sendKeys("admin");
-        driver.findElement(By.name("login")).click();
+        LoginToAdminSection();
         Thread.sleep(1000); //temporary, just for stability in FF
 
         driver.findElement(By.cssSelector("#app->a")).click();

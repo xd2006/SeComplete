@@ -8,10 +8,7 @@ public class LoginTest extends TestBase {
 
     @Test
     public void Login() throws InterruptedException {
-        driver.get("http://localhost/litecart/admin/");
-        driver.findElement(By.name("username")).sendKeys("admin");
-        driver.findElement(By.name("password")).sendKeys("admin");
-        driver.findElement(By.name("login")).click();
+        LoginToAdminSection();
         driver.findElement(By.xpath(".//*[@id='sidebar']//i[@class='fa fa-sign-out fa-lg']")).click();
     }
 }

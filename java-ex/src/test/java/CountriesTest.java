@@ -16,13 +16,10 @@ public class CountriesTest extends TestBase {
     @Test
     public void CountriesSortingTest() {
 
-        driver.get("http://localhost/litecart/admin/");
-        driver.findElement(By.name("username")).sendKeys("admin");
-        driver.findElement(By.name("password")).sendKeys("admin");
-        driver.findElement(By.name("login")).click();
+        LoginToAdminSection();
         driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
         waitForElement(By.cssSelector(".dataTable"));
-        List<WebElement> tableRows = driver.findElements(By.xpath("//table[@class='dataTable']//tr[@class='row']"));
+        List<WebElement> tableRows = getTableRows();
 
         ArrayList<String> countries = new ArrayList<>();
         ArrayList<String> countriesWithZones = new ArrayList<>();
@@ -55,6 +52,38 @@ public class CountriesTest extends TestBase {
     }
 
 
+
+    @Test
+    public void GeoZonesSortingTest(){
+
+        LoginToAdminSection();
+        driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+        waitForElement(By.cssSelector(".dataTable"));
+
+        List<WebElement> tableRows = getTableRows();
+
+        ArrayList<String> countries = new ArrayList<>();
+        for (WebElement row:tableRows){
+            countries.add(row.findElement(By.xpath("./td[3]/a")).getText());
+        }
+
+        for (String country:countries){
+            driver.findElement(By.xpath(String.format("//table[@class='dataTable']//tr[@class='row']//a[contains(.,'%s')]", country))).click();
+            waitForElement(By.cssSelector("#table-zones"),20);
+            List<WebElement> zoneSelects = driver.findElements(By.xpath("//table[@id='table-zones']//td[3]/select/option[@selected='selected']"));
+            ArrayList<String> zoneNames = new ArrayList<>();
+            for (WebElement select:zoneSelects){
+                zoneNames.add(select.getText());
+            }
+
+            checkStringListIsSorted(zoneNames);
+
+            driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+            waitForElement(By.cssSelector(".dataTable"));
+        }
+    }
+
+
     private void checkStringListIsSorted(ArrayList<String> sourceList) {
         ArrayList<String> initialList = new ArrayList<>();
         initialList.addAll(sourceList);
@@ -65,6 +94,10 @@ public class CountriesTest extends TestBase {
     private void reverseArray(ArrayList<String> massive) {
         Comparator cmp = Collections.reverseOrder();
         Collections.sort(massive, cmp);
+    }
+
+    private List<WebElement> getTableRows() {
+        return driver.findElements(By.xpath("//table[@class='dataTable']//tr[@class='row']"));
     }
 }
 

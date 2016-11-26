@@ -44,4 +44,15 @@ public class TestBase {
         wait.until((WebDriver d)->d.findElements(locator).size()>0);
     }
 
+    protected void waitForElement(final By locator, int timeToWaitSec){
+        WebDriverWait waitCustom = new WebDriverWait(driver,timeToWaitSec);
+        waitCustom.until((WebDriver d)->d.findElements(locator).size()>0);
+    }
+
+    protected void LoginToAdminSection() {
+        driver.get("http://localhost/litecart/admin/");
+        driver.findElement(By.name("username")).sendKeys("admin");
+        driver.findElement(By.name("password")).sendKeys("admin");
+        driver.findElement(By.name("login")).click();
+    }
 }
