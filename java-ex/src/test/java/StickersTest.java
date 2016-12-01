@@ -15,8 +15,8 @@ public class StickersTest extends TestBase  {
 
         driver.get("http://localhost/litecart/");
         By goodLocator = By.xpath("//li[@class='product column shadow hover-light']");
-
         waitForElement(goodLocator);
+
         List<WebElement> goods = driver.findElements(goodLocator);
 
         for (WebElement good : goods){

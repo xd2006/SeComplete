@@ -2,11 +2,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -54,5 +57,59 @@ public class TestBase {
         driver.findElement(By.name("username")).sendKeys("admin");
         driver.findElement(By.name("password")).sendKeys("admin");
         driver.findElement(By.name("login")).click();
+        waitForElement(By.xpath(".//*[@id='sidebar']//i[@class='fa fa-sign-out fa-lg']"));
+
     }
+
+    protected void selectCheckox(By locator) {
+        WebElement element = driver.findElement(locator);
+        if (!element.isSelected()) element.click();
+    }
+
+    protected void deselectCheckox(By locator) {
+        WebElement element = driver.findElement(locator);
+        if (element.isSelected()) element.click();
+    }
+
+    protected void type(By locator, String text) {
+        if (text != null) {
+            String currentText = driver.findElement(locator).getAttribute("value");
+            if (!text.equals(currentText)) {
+                click(locator);
+                driver.findElement(locator).clear();
+                driver.findElement(locator).sendKeys(text);
+            }
+        }
+    }
+
+    protected void click(By locator) {
+        driver.findElement(locator).click();
+    }
+
+    protected void attach(By locator, File file) {
+        if (file != null) {
+
+            driver.findElement(locator).sendKeys(file.getAbsolutePath());
+        }
+    }
+
+    protected String getValue(By locator) {
+        return driver.findElement(locator).getAttribute("value");
+    }
+
+    protected void select(By selectLocator, String itemText) {
+        if (itemText != null) {
+            Select select = new Select(driver.findElement(selectLocator));
+            if (select.getFirstSelectedOption().getText() != itemText) {
+                new Select(driver.findElement(selectLocator)).selectByVisibleText(itemText);
+            }
+        }
+    }
+
+
+    protected void setTimeout(int timeoutSeconds) {
+
+        driver.manage().timeouts().implicitlyWait(timeoutSeconds, TimeUnit.SECONDS);
+    }
+
 }
