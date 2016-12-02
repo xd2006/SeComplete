@@ -8,7 +8,7 @@ public class LoginTest extends TestBase {
 
     @Test
     public void Login() throws InterruptedException {
-        LoginToAdminSection();
+        loginToAdminSection();
         driver.findElement(By.xpath(".//*[@id='sidebar']//i[@class='fa fa-sign-out fa-lg']")).click();
     }
 }

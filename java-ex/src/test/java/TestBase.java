@@ -52,13 +52,19 @@ public class TestBase {
         waitCustom.until((WebDriver d)->d.findElements(locator).size()>0);
     }
 
-    protected void LoginToAdminSection() {
-        driver.get("http://localhost/litecart/admin/");
+    protected void loginToAdminSection() {
+        navigate("http://localhost/litecart/admin/");
         driver.findElement(By.name("username")).sendKeys("admin");
         driver.findElement(By.name("password")).sendKeys("admin");
         driver.findElement(By.name("login")).click();
         waitForElement(By.xpath(".//*[@id='sidebar']//i[@class='fa fa-sign-out fa-lg']"));
+    }
 
+    protected void loginToUserSection(String email, String password){
+        type(By.xpath("//input[@name='email']"),email);
+        type(By.xpath("//input[@name='password']"), password);
+        click(By.xpath("//button[@name='login']"));
+        waitForElement(By.xpath("//a[contains(@href,'/logout')]"));
     }
 
     protected void selectCheckox(By locator) {
@@ -112,4 +118,13 @@ public class TestBase {
         driver.manage().timeouts().implicitlyWait(timeoutSeconds, TimeUnit.SECONDS);
     }
 
+    protected void navigate(String address) {
+        driver.get(address);
+    }
+
+    protected void startApp() {
+        navigate("http://localhost/litecart/");
+        By goodLocator = By.xpath("//li[@class='product column shadow hover-light']");
+        waitForElement(goodLocator);
+    }
 }

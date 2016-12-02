@@ -16,8 +16,8 @@ public class CountriesTest extends TestBase {
     @Test
     public void CountriesSortingTest() {
 
-        LoginToAdminSection();
-        driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
+        loginToAdminSection();
+        navigate("http://localhost/litecart/admin/?app=countries&doc=countries");
         waitForElement(By.cssSelector(".dataTable"));
         List<WebElement> tableRows = getTableRows();
 
@@ -46,7 +46,7 @@ public class CountriesTest extends TestBase {
                 zoneNames.add(zone.getAttribute("value"));
             }
             checkStringListIsSorted(zoneNames);
-            driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
+            navigate("http://localhost/litecart/admin/?app=countries&doc=countries");
             waitForElement(By.cssSelector(".dataTable"));
         }
     }
@@ -57,8 +57,8 @@ public class CountriesTest extends TestBase {
     @Test
     public void GeoZonesSortingTest(){
 
-        LoginToAdminSection();
-        driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+        loginToAdminSection();
+        navigate("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
         waitForElement(By.cssSelector(".dataTable"));
 
         List<WebElement> tableRows = getTableRows();
@@ -79,7 +79,7 @@ public class CountriesTest extends TestBase {
 
             checkStringListIsSorted(zoneNames);
 
-            driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+            navigate("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
             waitForElement(By.cssSelector(".dataTable"));
         }
     }

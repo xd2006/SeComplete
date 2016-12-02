@@ -15,7 +15,7 @@ public class MainMenuTest extends TestBase {
     @Test
     public void mainMenuCheckTest() throws InterruptedException {
 
-        LoginToAdminSection();
+        loginToAdminSection();
         Thread.sleep(1000); //temporary, just for stability in FF
 
         driver.findElement(By.cssSelector("#app->a")).click();

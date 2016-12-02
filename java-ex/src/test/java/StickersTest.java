@@ -13,7 +13,7 @@ public class StickersTest extends TestBase  {
     @Test
     public void goodsStickersTest(){
 
-        driver.get("http://localhost/litecart/");
+        navigate("http://localhost/litecart/");
         By goodLocator = By.xpath("//li[@class='product column shadow hover-light']");
         waitForElement(goodLocator);
 

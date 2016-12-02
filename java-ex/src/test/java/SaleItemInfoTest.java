@@ -13,7 +13,7 @@ public class SaleItemInfoTest extends TestBase {
     @Test
     public void CheckItemDataTest() {
 
-        driver.get("http://localhost/litecart/");
+        navigate("http://localhost/litecart/");
         By campaignGoodLocator = By.xpath("//div[@id='box-campaigns']//li[@class='product column shadow hover-light']");
         waitForElement(campaignGoodLocator);
         WebElement item = driver.findElement(campaignGoodLocator);
