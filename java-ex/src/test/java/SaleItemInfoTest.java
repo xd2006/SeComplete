@@ -11,7 +11,7 @@ public class SaleItemInfoTest extends TestBase {
 
 
     @Test
-    public void CheckItemDataTest() {
+    public void checkItemDataTest() {
 
         navigate("http://localhost/litecart/");
         By campaignGoodLocator = By.xpath("//div[@id='box-campaigns']//li[@class='product column shadow hover-light']");

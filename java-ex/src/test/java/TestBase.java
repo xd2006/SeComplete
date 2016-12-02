@@ -127,4 +127,8 @@ public class TestBase {
         By goodLocator = By.xpath("//li[@class='product column shadow hover-light']");
         waitForElement(goodLocator);
     }
+
+    protected void navigateInMenu(String section) {
+        click(By.xpath(String.format(".//li[@id='app-']/a/span[.='%s']",section)));
+    }
 }

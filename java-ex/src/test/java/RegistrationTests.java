@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 public class RegistrationTests extends TestBase {
 
     @Test
-    public void CreateUser() {
+    public void createUser() {
 
         startApp();
         click(By.xpath("//a[contains(.,'New customers click here')]"));
