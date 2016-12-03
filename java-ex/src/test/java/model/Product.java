@@ -12,11 +12,46 @@ public class Product {
     private Information informationTabData;
     private Prices pricesTabData;
 
+    public General getGeneralTabData() {
+        return generalTabData;
+    }
+
+    public Product withGeneralTabData(General generalTabData) {
+        this.generalTabData = generalTabData;
+        return this;
+    }
+
+    public Information getInformationTabData() {
+        return informationTabData;
+    }
+
+    public Product withInformationTabData(Information informationTabData) {
+        this.informationTabData = informationTabData;
+        return this;
+    }
+
+    public Prices getPricesTabData() {
+        return pricesTabData;
+    }
+
+    public Product withPricesTabData(Prices pricesTabData) {
+        this.pricesTabData = pricesTabData;
+        return this;
+    }
+
 
     public class General {
         private boolean enabled;
         private String name;
         private String code;
+        private ArrayList<String> categories;
+        private String defaultCategory;
+        private ArrayList<String> productGroups;
+        private int quantity;
+        private String soldOutStatus;
+        private File image;
+        private String dateValidFrom;
+        private String dateValidTo;
 
         public boolean isEnabled() {
             return enabled;
@@ -116,53 +151,77 @@ public class Product {
             this.dateValidTo = dateValidTo;
             return this;
         }
-
-        private ArrayList<String> categories;
-        private String defaultCategory;
-        private ArrayList<String> productGroups;
-        private int quantity;
-        private String soldOutStatus;
-        private File image;
-        private String dateValidFrom;
-        private String dateValidTo;
-
-
     }
 
     public class Information {
 
+        private String manufacturer;
+        private String keywords;
+        private String shortDescription;
+        private String description;
+        private String headTitle;
+        private String metaDescription;
+
+        public String getManufacturer() {
+            return manufacturer;
+        }
+
+        public Information withManufacturer(String manufacturer) {
+            this.manufacturer = manufacturer;
+            return this;
+        }
+
+        public String getKeywords() {
+            return keywords;
+        }
+
+        public Information withKeywords(String keywords) {
+            this.keywords = keywords;
+            return this;
+        }
+
+        public String getShortDescription() {
+            return shortDescription;
+        }
+
+        public Information withShortDescription(String shortDescription) {
+            this.shortDescription = shortDescription;
+            return this;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public Information withDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public String getHeadTitle() {
+            return headTitle;
+        }
+
+        public Information withHeadTitle(String headTitle) {
+            this.headTitle = headTitle;
+            return this;
+        }
+
+        public String getMetaDescription() {
+            return metaDescription;
+        }
+
+        public Information withMetaDescription(String metaDescription) {
+            this.metaDescription = metaDescription;
+            return this;
+        }
     }
 
     public class Prices {
 
     }
 
-    public General getGeneralTabData() {
-        return generalTabData;
-    }
 
-    public Product withGeneralTabData(General generalTabData) {
-        this.generalTabData = generalTabData;
-        return this;
-    }
-
-    public Information getInformationTabData() {
-        return informationTabData;
-    }
-
-    public Product withInformationTabData(Information informationTabData) {
-        this.informationTabData = informationTabData;
-        return this;
-    }
-
-    public Prices getPricesTabData() {
-        return pricesTabData;
-    }
-
-    public Product withPricesTabData(Prices pricesTabData) {
-        this.pricesTabData = pricesTabData;
-        return this;
-    }
 
 
 }
