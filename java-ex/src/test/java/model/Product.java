@@ -41,7 +41,7 @@ public class Product {
 
 
     public class General {
-        private boolean enabled;
+        private boolean enabledStatus;
         private String name;
         private String code;
         private ArrayList<String> categories;
@@ -52,13 +52,33 @@ public class Product {
         private File image;
         private String dateValidFrom;
         private String dateValidTo;
+        private String quantityUnit;
+        private String deliveryStatus;
 
-        public boolean isEnabled() {
-            return enabled;
+        public String getQuantityUnit() {
+            return quantityUnit;
         }
 
-        public General withEnabled(boolean enabled) {
-            this.enabled = enabled;
+        public General withQuantityUnit(String quantityInfo) {
+            this.quantityUnit = quantityInfo;
+            return this;
+        }
+
+        public String getDeliveryStatus() {
+            return deliveryStatus;
+        }
+
+        public General withDeliveryStatus(String deliveryStatus) {
+            this.deliveryStatus = deliveryStatus;
+            return this;
+        }
+
+        public boolean isEnabledStatus() {
+            return enabledStatus;
+        }
+
+        public General withEnabledStatus(boolean enabled) {
+            this.enabledStatus = enabled;
             return this;
         }
 
@@ -218,6 +238,38 @@ public class Product {
     }
 
     public class Prices {
+
+        private String purchasePrice;
+        private String currency;
+        private String priceUsd;
+
+        public String getPurchasePrice() {
+            return purchasePrice;
+        }
+
+        public Prices withPurchasePrice(String purchasePrice) {
+            this.purchasePrice = purchasePrice;
+            return this;
+        }
+
+        public String getCurrency() {
+            return currency;
+        }
+
+        public Prices withCurrency(String currency) {
+            this.currency = currency;
+            return this;
+        }
+
+        public String getPriceUsd() {
+            return priceUsd;
+        }
+
+        public Prices withPriceUsd(String priceUsd) {
+            this.priceUsd = priceUsd;
+            return this;
+        }
+
 
     }
 

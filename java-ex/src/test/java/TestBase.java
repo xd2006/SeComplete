@@ -72,8 +72,16 @@ public class TestBase {
         if (!element.isSelected()) element.click();
     }
 
+    protected void selectCheckox(WebElement element) {
+        if (!element.isSelected()) element.click();
+    }
+
     protected void deselectCheckox(By locator) {
         WebElement element = driver.findElement(locator);
+        if (element.isSelected()) element.click();
+    }
+
+    protected void deselectCheckox(WebElement element) {
         if (element.isSelected()) element.click();
     }
 
@@ -83,6 +91,16 @@ public class TestBase {
             if (!text.equals(currentText)) {
                 click(locator);
                 driver.findElement(locator).clear();
+                driver.findElement(locator).sendKeys(text);
+            }
+        }
+    }
+
+    protected void typeMaskField(By locator, String text) {
+        if (text != null) {
+            String currentText = driver.findElement(locator).getAttribute("value");
+            if (!text.equals(currentText)) {
+                click(locator);
                 driver.findElement(locator).sendKeys(text);
             }
         }
@@ -111,7 +129,6 @@ public class TestBase {
             }
         }
     }
-
 
     protected void setTimeout(int timeoutSeconds) {
 
