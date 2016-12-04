@@ -67,7 +67,7 @@ public class ProductTest extends TestBase {
         navigateInMenu("Catalog");
         click(By.xpath(String.format("//a[contains(.,'%s')]", testProduct.getGeneralTabData().getCategories().get(0))));
         Assert.assertTrue("Newly created product wasn't found"
-                ,isElementExists(By.xpath(String.format("//a[contains(.,'%s')]",testProduct.getGeneralTabData().getName()))));
+                ,isElementExists(By.xpath(String.format("//form/table//a[contains(.,'%s')]",testProduct.getGeneralTabData().getName()))));
     }
 
     private void populateProductData(Product product) {
