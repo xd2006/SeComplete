@@ -1,4 +1,5 @@
 import model.Product;
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -45,7 +46,7 @@ public class ProductTest extends TestBase {
                 .withCode("TestCode" + timeStamp).withCategories(productCategories).withDefaultCategory(productCategories.get(0))
                 .withProductGroups(productGroups).withQuantity(150).withSoldOutStatus("Temporary sold out").withQuantityUnit("pcs")
                 .withDeliveryStatus("3-5 days").withImage(imageFile).withDateValidFrom(startDate).withDateValidTo(endDate);
-        Product.Information productInformation = testProduct.new Information().withManufacturer("ACME corp.")
+        Product.Information productInformation = testProduct.new Information().withManufacturer("ACME Corp.")
                 .withKeywords("Keyword1, Keyword2, Keyword3").withShortDescription("Test product short description")
                 .withDescription("Lorem ipsum dolor sit amet, his iisque vivendo eu. Mei cu graecis docendi quaestio. " +
                         "Ea mei quod harum consul, iusto constituam nam an, assum dolore vel ei. Eos in simul iudico feugait," +
@@ -62,8 +63,11 @@ public class ProductTest extends TestBase {
         testProduct.withGeneralTabData(productGeneralInfo).withInformationTabData(productInformation).withPricesTabData(productPricesInfo);
 
         populateProductData(testProduct);
-        //click(By.xpath("//button[@name='save']"));
-
+        click(By.xpath("//button[@name='save']"));
+        navigateInMenu("Catalog");
+        click(By.xpath(String.format("//a[contains(.,'%s')]", testProduct.getGeneralTabData().getCategories().get(0))));
+        Assert.assertTrue("Newly created product wasn't found"
+                ,isElementExists(By.xpath(String.format("//a[contains(.,'%s')]",testProduct.getGeneralTabData().getName()))));
     }
 
     private void populateProductData(Product product) {
@@ -75,10 +79,19 @@ public class ProductTest extends TestBase {
     }
 
     private void populatePricesProductData(Product.Prices pricesTabData) {
+        type(By.xpath("//input[@name='purchase_price']"),pricesTabData.getPurchasePrice());
+        select(By.xpath("//select[@name='purchase_price_currency_code']"),pricesTabData.getCurrency());
+        type(By.xpath("//input[@name='prices[USD]']"), pricesTabData.getPriceUsd());
 
     }
 
     private void populateInformationProductData(Product.Information informationTabData) {
+        select(By.xpath("//select[@name='manufacturer_id']"), informationTabData.getManufacturer());
+        type(By.xpath("//input[@name='keywords']"), informationTabData.getKeywords());
+        type(By.xpath("//input[@name='short_description[en]']"),informationTabData.getShortDescription());
+        type(By.xpath("//div[@contenteditable='true' and @class='trumbowyg-editor']"),informationTabData.getDescription());
+        type(By.xpath("//input[@name='head_title[en]']"),informationTabData.getHeadTitle());
+        type(By.xpath("//input[@name='meta_description[en]']"), informationTabData.getMetaDescription());
 
     }
 
@@ -93,12 +106,12 @@ public class ProductTest extends TestBase {
         selectCategories(generalTabData.getCategories());
         selectProductGroups(generalTabData.getProductGroups());
         type(By.xpath("//input[@name='quantity']"), String.valueOf(generalTabData.getQuantity()));
-        select(By.xpath("//select[@name='quantity_unit_id']"),generalTabData.getQuantityUnit());
+        select(By.xpath("//select[@name='quantity_unit_id']"), generalTabData.getQuantityUnit());
         select(By.xpath("//select[@name='delivery_status_id']"), generalTabData.getDeliveryStatus());
         select(By.xpath("//select[@name='sold_out_status_id']"), generalTabData.getSoldOutStatus());
-        attach(By.xpath("//input[@name='new_images[]']"),generalTabData.getImage());
-        typeMaskField(By.xpath("//input[@name='date_valid_from']"),generalTabData.getDateValidFrom());
-        typeMaskField(By.xpath("//input[@name='date_valid_to']"),generalTabData.getDateValidTo());
+        attach(By.xpath("//input[@name='new_images[]']"), generalTabData.getImage());
+        typeMaskField(By.xpath("//input[@name='date_valid_from']"), generalTabData.getDateValidFrom());
+        typeMaskField(By.xpath("//input[@name='date_valid_to']"), generalTabData.getDateValidTo());
 
     }
 

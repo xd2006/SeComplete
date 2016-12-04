@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -115,6 +116,11 @@ public class TestBase {
 
             driver.findElement(locator).sendKeys(file.getAbsolutePath());
         }
+    }
+
+    protected Boolean isElementExists(By locator){
+        List<WebElement> elements = driver.findElements(locator);
+        return (elements.size()>0);
     }
 
     protected String getValue(By locator) {
