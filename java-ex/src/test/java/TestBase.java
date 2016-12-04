@@ -119,8 +119,13 @@ public class TestBase {
     }
 
     protected Boolean isElementExists(By locator){
-        List<WebElement> elements = driver.findElements(locator);
-        return (elements.size()>0);
+        try {
+            setTimeout(1);
+            List<WebElement> elements = driver.findElements(locator);
+            return (elements.size() > 0);
+        }finally{
+            setTimeout(10);
+        }
     }
 
     protected String getValue(By locator) {
