@@ -28,8 +28,6 @@ public class CartTest extends TestBase {
 
         removeAllItemsFromCart();
 
-
-
     }
 
     private void removeAllItemsFromCart() {

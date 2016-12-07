@@ -6,11 +6,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,8 +23,7 @@ public class TestBase {
     protected WebDriverWait wait;
 
     @Before
-    public void start()
-    {
+    public void start() {
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(FirefoxDriver.MARIONETTE, true);
 //        FirefoxBinary bin = new FirefoxBinary(new File("c:\\Program Files (x86)\\Mozilla Firefox ESR\\firefox.exe"));
@@ -30,27 +31,27 @@ public class TestBase {
 //        driver = new FirefoxDriver(bin, new FirefoxProfile(),caps);
 
 
-       //driver = new FirefoxDriver(caps);
+        //driver = new FirefoxDriver(caps);
 
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver,10);
+        wait = new WebDriverWait(driver, 10);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @After
-    public void stop(){
+    public void stop() {
         driver.quit();
-        driver=null;
+        driver = null;
     }
 
 
-    protected void waitForElement(final By locator){
-        wait.until((WebDriver d)->d.findElements(locator).size()>0);
+    protected void waitForElement(final By locator) {
+        wait.until((WebDriver d) -> d.findElements(locator).size() > 0);
     }
 
-    protected void waitForElement(final By locator, int timeToWaitSec){
-        WebDriverWait waitCustom = new WebDriverWait(driver,timeToWaitSec);
-        waitCustom.until((WebDriver d)->d.findElements(locator).size()>0);
+    protected void waitForElement(final By locator, int timeToWaitSec) {
+        WebDriverWait waitCustom = new WebDriverWait(driver, timeToWaitSec);
+        waitCustom.until((WebDriver d) -> d.findElements(locator).size() > 0);
     }
 
     protected void loginToAdminSection() {
@@ -61,8 +62,8 @@ public class TestBase {
         waitForElement(By.xpath(".//*[@id='sidebar']//i[@class='fa fa-sign-out fa-lg']"));
     }
 
-    protected void loginToUserSection(String email, String password){
-        type(By.xpath("//input[@name='email']"),email);
+    protected void loginToUserSection(String email, String password) {
+        type(By.xpath("//input[@name='email']"), email);
         type(By.xpath("//input[@name='password']"), password);
         click(By.xpath("//button[@name='login']"));
         waitForElement(By.xpath("//a[contains(@href,'/logout')]"));
@@ -118,12 +119,12 @@ public class TestBase {
         }
     }
 
-    protected Boolean isElementExists(By locator){
+    protected Boolean isElementExists(By locator) {
         try {
             setTimeout(1);
             List<WebElement> elements = driver.findElements(locator);
             return (elements.size() > 0);
-        }finally{
+        } finally {
             setTimeout(10);
         }
     }
@@ -157,6 +158,17 @@ public class TestBase {
     }
 
     protected void navigateInMenu(String section) {
-        click(By.xpath(String.format(".//li[@id='app-']/a/span[.='%s']",section)));
+        click(By.xpath(String.format(".//li[@id='app-']/a/span[.='%s']", section)));
+    }
+
+    protected ExpectedCondition<String> anyWindowOtherThan(Set<String> oldWindows) {
+        return new ExpectedCondition<String>() {
+            @Override
+            public String apply(WebDriver driver) {
+                Set<String> handles = driver.getWindowHandles();
+                handles.removeAll(oldWindows);
+                return handles.size() > 0 ? handles.iterator().next() : null;
+            }
+        };
     }
 }
