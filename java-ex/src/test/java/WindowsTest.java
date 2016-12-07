@@ -11,7 +11,7 @@ import java.util.Set;
 public class WindowsTest extends TestBase {
 
     @Test
-    public void CountriesLinks() {
+    public void countriesLinks() {
 
         loginToAdminSection();
         navigate("http://localhost/litecart/admin/?app=countries&doc=countries");
