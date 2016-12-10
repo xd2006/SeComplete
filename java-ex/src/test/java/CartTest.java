@@ -69,7 +69,7 @@ public class CartTest extends TestBase {
         click(addToCartButton);
 
         wait.until(waitQuantityInCartUpdated(quantity));
-        navigate("http://localhost/litecart");
+        navigate(properties.getProperty("web.baseUrl"));
     }
 
     private Predicate<WebDriver> waitQuantityInCartUpdated(int quantity) {

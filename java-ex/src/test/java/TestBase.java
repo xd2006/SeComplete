@@ -11,7 +11,10 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -21,9 +24,16 @@ import java.util.concurrent.TimeUnit;
 public class TestBase {
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected Properties properties;
 
     @Before
-    public void start() {
+    public void start() throws IOException {
+
+        properties = new Properties();
+        String target = System.getProperty("target","local");
+        properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties",target))));
+
+
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability(FirefoxDriver.MARIONETTE, true);
 //        FirefoxBinary bin = new FirefoxBinary(new File("c:\\Program Files (x86)\\Mozilla Firefox ESR\\firefox.exe"));
@@ -55,7 +65,7 @@ public class TestBase {
     }
 
     protected void loginToAdminSection() {
-        navigate("http://localhost/litecart/admin/");
+        navigate(properties.getProperty("web.baseUrl")+"/admin/");
         driver.findElement(By.name("username")).sendKeys("admin");
         driver.findElement(By.name("password")).sendKeys("admin");
         driver.findElement(By.name("login")).click();
@@ -152,7 +162,7 @@ public class TestBase {
     }
 
     protected void startApp() {
-        navigate("http://localhost/litecart/");
+        navigate(properties.getProperty("web.baseUrl"));
         By goodLocator = By.xpath("//li[@class='product column shadow hover-light']");
         waitForElement(goodLocator);
     }

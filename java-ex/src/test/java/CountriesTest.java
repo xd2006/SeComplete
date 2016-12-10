@@ -17,7 +17,7 @@ public class CountriesTest extends TestBase {
     public void CountriesSortingTest() {
 
         loginToAdminSection();
-        navigate("http://localhost/litecart/admin/?app=countries&doc=countries");
+        navigate(properties.getProperty("web.baseUrl")+"/admin/?app=countries&doc=countries");
         waitForElement(By.cssSelector(".dataTable"));
         List<WebElement> tableRows = getTableRows();
 
@@ -46,7 +46,7 @@ public class CountriesTest extends TestBase {
                 zoneNames.add(zone.getAttribute("value"));
             }
             checkStringListIsSorted(zoneNames);
-            navigate("http://localhost/litecart/admin/?app=countries&doc=countries");
+            navigate(properties.getProperty("web.baseUrl")+"/admin/?app=countries&doc=countries");
             waitForElement(By.cssSelector(".dataTable"));
         }
     }
