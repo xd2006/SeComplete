@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,10 +14,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static org.openqa.selenium.remote.BrowserType.CHROME;
 
 /**
  * Created by Alex on 17.11.2016.
@@ -30,20 +34,29 @@ public class TestBase {
     public void start() throws IOException {
 
         properties = new Properties();
-        String target = System.getProperty("target","local");
+        //String target = System.getProperty("target","local");
+        String target = System.getProperty("target","remote");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties",target))));
 
 
         DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability(FirefoxDriver.MARIONETTE, true);
+
+        if ("".equals(properties.getProperty("selenium.server"))) {
+            caps.setCapability(FirefoxDriver.MARIONETTE, true);
 //        FirefoxBinary bin = new FirefoxBinary(new File("c:\\Program Files (x86)\\Mozilla Firefox ESR\\firefox.exe"));
 //        FirefoxBinary bin = new FirefoxBinary(new File("c:\\Program Files (x86)\\Nightly\\firefox.exe"));
 //        driver = new FirefoxDriver(bin, new FirefoxProfile(),caps);
 
+            //driver = new FirefoxDriver(caps);
 
-        //driver = new FirefoxDriver(caps);
 
-        driver = new ChromeDriver();
+            driver = new ChromeDriver();
+        }
+        else{
+            caps.setBrowserName(System.getProperty("browser", CHROME));
+            //caps.setPlatform(Platform.fromString(System.getProperty("platform","windows")));
+            driver = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")),caps );
+        }
         wait = new WebDriverWait(driver, 10);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
