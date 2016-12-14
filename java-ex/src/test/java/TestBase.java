@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import static org.openqa.selenium.remote.BrowserType.CHROME;
 
@@ -48,7 +51,6 @@ public class TestBase {
 //        driver = new FirefoxDriver(bin, new FirefoxProfile(),caps);
 
             //driver = new FirefoxDriver(caps);
-
 
             driver = new ChromeDriver();
         }
@@ -193,5 +195,13 @@ public class TestBase {
                 return handles.size() > 0 ? handles.iterator().next() : null;
             }
         };
+    }
+
+    protected void checkLog() throws Exception {
+        List<LogEntry> logEntries = driver.manage().logs().get("browser").getAll().stream()
+                .filter(l -> l.getLevel().equals(Level.SEVERE) || l.getLevel().equals(Level.WARNING)).collect(Collectors.toList());
+        if (logEntries.size()>0){
+            throw new Exception("Some errors appeared in browser log. Only 1st one is displayed:" + logEntries.get(0).getMessage());
+        }
     }
 }
