@@ -22,10 +22,10 @@ public class BrowserLogTest extends TestBase {
             WebElement currentProduct =  products.get(i);
             currentProduct.click();
             wait.until(ExpectedConditions.stalenessOf(currentProduct));
-            checkLog();
+            checkLog(false);
             navigate(productsPage);
             products = driver.findElements(productItemLocator);
-            checkLog();
+            checkLog(false);
         }
 
     }

@@ -37,9 +37,9 @@ public class TestBase {
     public void start() throws IOException {
 
         properties = new Properties();
-        String target = System.getProperty("target","local");
+        String target = System.getProperty("target", "local");
 //        String target = System.getProperty("target","remote");
-        properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties",target))));
+        properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
 
 
         DesiredCapabilities caps = new DesiredCapabilities();
@@ -53,11 +53,10 @@ public class TestBase {
             //driver = new FirefoxDriver(caps);
 
             driver = new ChromeDriver();
-        }
-        else{
+        } else {
             caps.setBrowserName(System.getProperty("browser", CHROME));
             //caps.setPlatform(Platform.fromString(System.getProperty("platform","windows")));
-            driver = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")),caps );
+            driver = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), caps);
         }
         wait = new WebDriverWait(driver, 10);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -80,7 +79,7 @@ public class TestBase {
     }
 
     protected void loginToAdminSection() {
-        navigate(properties.getProperty("web.baseUrl")+"/admin/");
+        navigate(properties.getProperty("web.baseUrl") + "/admin/");
         driver.findElement(By.name("username")).sendKeys("admin");
         driver.findElement(By.name("password")).sendKeys("admin");
         driver.findElement(By.name("login")).click();
@@ -197,11 +196,22 @@ public class TestBase {
         };
     }
 
-    protected void checkLog() throws Exception {
-        List<LogEntry> logEntries = driver.manage().logs().get("browser").getAll().stream()
-                .filter(l -> l.getLevel().equals(Level.SEVERE) || l.getLevel().equals(Level.WARNING)).collect(Collectors.toList());
-        if (logEntries.size()>0){
-            throw new Exception("Some errors appeared in browser log. Only 1st one is displayed:" + logEntries.get(0).getMessage());
+    protected void checkLog(boolean onlyErrors) throws Exception {
+
+        List<LogEntry> logEntries;
+        String message;
+
+        if (onlyErrors) {
+            logEntries = driver.manage().logs().get("browser").getAll().stream()
+                    .filter(l -> l.getLevel().equals(Level.SEVERE) || l.getLevel().equals(Level.WARNING)).collect(Collectors.toList());
+            message = "Some errors appeared in browser log. Only 1st one is displayed:";
+        } else {
+            logEntries = driver.manage().logs().get("browser").getAll();
+            message = "Some messages appeared in browser log. Only 1st one is displayed:";
+        }
+
+        if (logEntries.size() > 0) {
+            throw new Exception(message + logEntries.get(0).getMessage());
         }
     }
 }
