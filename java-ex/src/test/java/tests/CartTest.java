@@ -9,7 +9,7 @@ public class CartTest extends TestBase {
 
 
     @Test
-    public void addToCartTest() throws InterruptedException {
+    public void addToCartTest() {
 
         app.getPage().openMainPage();
         app.getMainPage().addRandomProductsToCart(3);

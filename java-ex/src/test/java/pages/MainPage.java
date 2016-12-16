@@ -19,7 +19,7 @@ public class MainPage extends Page {
     }
 
 
-    public void addRandomProductsToCart(int numberOfProducts ) throws InterruptedException {
+    public void addRandomProductsToCart(int numberOfProducts ) {
         for (int i=1; i<=numberOfProducts;i++){
             addProductToCart(i);
         }
@@ -31,7 +31,7 @@ public class MainPage extends Page {
     }
 
 
-    private void addProductToCart(int productNumber) throws InterruptedException {
+    private void addProductToCart(int productNumber) {
 
         List<WebElement> goods = app.driver.findElements(By.xpath("//*[@id='box-most-popular']//li[@class='product column shadow hover-light']"));
 
