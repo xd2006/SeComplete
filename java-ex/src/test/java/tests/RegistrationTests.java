@@ -12,7 +12,7 @@ public class RegistrationTests extends TestBase {
     @Test
     public void createUser() {
 
-        app.getPage().startApp();
+        app.getPage().openMainPage();
         app.getPage().click(By.xpath("//a[contains(.,'New customers click here')]"));
 
         String email = new java.util.Date().getTime() + "mail@test.com";

@@ -4,17 +4,12 @@ import app.Application;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.logging.LogEntry;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 /**
  * Created by Alex on 16.12.2016.
@@ -44,9 +39,9 @@ public class Page {
     public void loginToAdminSection() {
         navigate(app.properties.getProperty("web.baseUrl") + "/admin/");
         if (!isElementExists(By.xpath(".//*[@id='sidebar']//i[@class='fa fa-sign-out fa-lg']"))) {
-            app.driver.findElement(By.name("username")).sendKeys("admin");
-            app.driver.findElement(By.name("password")).sendKeys("admin");
-            app.driver.findElement(By.name("login")).click();
+            driver.findElement(By.name("username")).sendKeys("admin");
+            driver.findElement(By.name("password")).sendKeys("admin");
+            driver.findElement(By.name("login")).click();
             waitForElement(By.xpath(".//*[@id='sidebar']//i[@class='fa fa-sign-out fa-lg']"));
         }
     }
@@ -61,7 +56,7 @@ public class Page {
     }
 
     public void selectCheckox(By locator) {
-        WebElement element = app.driver.findElement(locator);
+        WebElement element = driver.findElement(locator);
         if (!element.isSelected()) element.click();
     }
 
@@ -70,7 +65,7 @@ public class Page {
     }
 
     public void deselectCheckox(By locator) {
-        WebElement element = app.driver.findElement(locator);
+        WebElement element = driver.findElement(locator);
         if (element.isSelected()) element.click();
     }
 
@@ -80,39 +75,39 @@ public class Page {
 
     public void type(By locator, String text) {
         if (text != null) {
-            String currentText = app.driver.findElement(locator).getAttribute("value");
+            String currentText = driver.findElement(locator).getAttribute("value");
             if (!text.equals(currentText)) {
                 click(locator);
-                app.driver.findElement(locator).clear();
-                app.driver.findElement(locator).sendKeys(text);
+                driver.findElement(locator).clear();
+                driver.findElement(locator).sendKeys(text);
             }
         }
     }
 
     public void typeMaskField(By locator, String text) {
         if (text != null) {
-            String currentText = app.driver.findElement(locator).getAttribute("value");
+            String currentText = driver.findElement(locator).getAttribute("value");
             if (!text.equals(currentText)) {
                 click(locator);
-                app.driver.findElement(locator).sendKeys(text);
+                driver.findElement(locator).sendKeys(text);
             }
         }
     }
 
     public void click(By locator) {
-        app.driver.findElement(locator).click();
+        driver.findElement(locator).click();
     }
 
     public void attach(By locator, File file) {
         if (file != null) {
 
-            app.driver.findElement(locator).sendKeys(file.getAbsolutePath());
+            driver.findElement(locator).sendKeys(file.getAbsolutePath());
         }
     }
     public Boolean isElementExists(By locator) {
         try {
             setTimeout(1);
-            List<WebElement> elements = app.driver.findElements(locator);
+            List<WebElement> elements = driver.findElements(locator);
             return (elements.size() > 0);
         } finally {
             setTimeout(10);
@@ -120,28 +115,28 @@ public class Page {
     }
 
     protected String getValue(By locator) {
-        return app.driver.findElement(locator).getAttribute("value");
+        return driver.findElement(locator).getAttribute("value");
     }
 
     public void select(By selectLocator, String itemText) {
         if (itemText != null) {
-            Select select = new Select(app.driver.findElement(selectLocator));
+            Select select = new Select(driver.findElement(selectLocator));
             if (select.getFirstSelectedOption().getText() != itemText) {
-                new Select(app.driver.findElement(selectLocator)).selectByVisibleText(itemText);
+                new Select(driver.findElement(selectLocator)).selectByVisibleText(itemText);
             }
         }
     }
 
     public void setTimeout(int timeoutSeconds) {
 
-        app.driver.manage().timeouts().implicitlyWait(timeoutSeconds, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(timeoutSeconds, TimeUnit.SECONDS);
     }
 
     public void navigate(String address) {
-        app.driver.get(address);
+        driver.get(address);
     }
 
-    public void startApp() {
+    public void openMainPage() {
         navigate(app.properties.getProperty("web.baseUrl"));
         By goodLocator = By.xpath("//li[@class='product column shadow hover-light']");
         waitForElement(goodLocator);
@@ -151,35 +146,9 @@ public class Page {
         click(By.xpath(String.format(".//li[@id='app-']/a/span[.='%s']", section)));
     }
 
-    public ExpectedCondition<String> anyWindowOtherThan(Set<String> oldWindows) {
-        return new ExpectedCondition<String>() {
-            @Override
-            public String apply(WebDriver driver) {
-                Set<String> handles = app.driver.getWindowHandles();
-                handles.removeAll(oldWindows);
-                return handles.size() > 0 ? handles.iterator().next() : null;
-            }
-        };
-    }
 
-    public void checkLog(boolean onlyErrors) throws Exception {
 
-        List<LogEntry> logEntries;
-        String message;
 
-        if (onlyErrors) {
-            logEntries = app.driver.manage().logs().get("browser").getAll().stream()
-                    .filter(l -> l.getLevel().equals(Level.SEVERE) || l.getLevel().equals(Level.WARNING)).collect(Collectors.toList());
-            message = "Some errors appeared in browser log. Only 1st one is displayed:";
-        } else {
-            logEntries = app.driver.manage().logs().get("browser").getAll();
-            message = "Some messages appeared in browser log. Only 1st one is displayed:";
-        }
-
-        if (logEntries.size() > 0) {
-            throw new Exception(message + logEntries.get(0).getMessage());
-        }
-    }
 
 
 }

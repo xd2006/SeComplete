@@ -24,10 +24,10 @@ public class BrowserLogTest extends TestBase {
             WebElement currentProduct =  products.get(i);
             currentProduct.click();
             app.wait.until(ExpectedConditions.stalenessOf(currentProduct));
-            app.getPage().checkLog(false);
+            checkLog(false);
             app.getPage().navigate(productsPage);
             products = app.driver.findElements(productItemLocator);
-            app.getPage().checkLog(false);
+            checkLog(false);
         }
 
     }

@@ -27,7 +27,7 @@ public class WindowsTest extends TestBase {
 
         for (WebElement link : links) {
             link.click();
-            String newWindow = app.wait.until(app.getPage().anyWindowOtherThan(oldWindows));
+            String newWindow = app.wait.until(anyWindowOtherThan(oldWindows));
             app.driver.switchTo().window(newWindow);
 //            waitForElement(By.xpath("//html")); //optional: wait that some content is loaded in a new window
             app.driver.close();
